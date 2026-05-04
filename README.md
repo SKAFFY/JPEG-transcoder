@@ -1,0 +1,2 @@
+# JPEG-transcoder
+THIS IS A STUDY PROJECT
