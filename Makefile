@@ -12,13 +12,13 @@ GOTEST     = $(GOCMD) test
 ENCODER_BIN     = jpeg_encoder
 DECODER_BIN     = jpeg_decoder
 E2E_BIN         = jpeg_e2e_test
-ANALYSIS_BIN    = jpeg_analysis                     # ДОБАВЛЕНО
+ANALYSIS_BIN    = jpeg_analysis
 
 # Paths to Go main packages
 ENCODER_MAIN    = ./cmd/encoder
 DECODER_MAIN    = ./cmd/decoder
 E2E_MAIN        = ./cmd/e2e
-ANALYSIS_MAIN   = ./cmd/analysis                   # ДОБАВЛЕНО
+ANALYSIS_MAIN   = ./cmd/analysis
 
 # ============================================================================
 # Directories
@@ -28,7 +28,7 @@ PARSER_DIR      = ./third_party/parser
 JPEG_DIR        = ./third_party/jpeg-source
 TEST30_DIR      = ./test/jpeg30
 TEST80_DIR      = ./test/jpeg80
-REPORTS_DIR     = ./test/reports                  # ДОБАВЛЕНО
+REPORTS_DIR     = ./test/reports
 
 # ============================================================================
 # URLs for downloads
@@ -152,7 +152,7 @@ build-jpeg: $(JPEG_EXTRACTED)
 # ============================================================================
 # Build Go binaries (native OS)
 # ============================================================================
-build-go: $(BIN_DIR) $(BIN_DIR)/$(ENCODER_BIN) $(BIN_DIR)/$(DECODER_BIN) $(BIN_DIR)/$(E2E_BIN) $(BIN_DIR)/$(ANALYSIS_BIN)   # добавлен ANALYSIS_BIN
+build-go: $(BIN_DIR) $(BIN_DIR)/$(ENCODER_BIN) $(BIN_DIR)/$(DECODER_BIN) $(BIN_DIR)/$(E2E_BIN) $(BIN_DIR)/$(ANALYSIS_BIN)
 
 $(BIN_DIR)/$(ENCODER_BIN): $(ENCODER_MAIN)
 	$(GOBUILD) -o $(BIN_DIR)/$(ENCODER_BIN) $(ENCODER_MAIN)
@@ -163,7 +163,7 @@ $(BIN_DIR)/$(DECODER_BIN): $(DECODER_MAIN)
 $(BIN_DIR)/$(E2E_BIN): $(E2E_MAIN)
 	$(GOBUILD) -o $(BIN_DIR)/$(E2E_BIN) $(E2E_MAIN)
 
-$(BIN_DIR)/$(ANALYSIS_BIN): $(ANALYSIS_MAIN)          # ДОБАВЛЕНО
+$(BIN_DIR)/$(ANALYSIS_BIN): $(ANALYSIS_MAIN)
 	$(GOBUILD) -o $(BIN_DIR)/$(ANALYSIS_BIN) $(ANALYSIS_MAIN)
 
 # ============================================================================
@@ -174,7 +174,7 @@ build-windows:
 	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BIN_DIR)/windows/$(ENCODER_BIN).exe $(ENCODER_MAIN)
 	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BIN_DIR)/windows/$(DECODER_BIN).exe $(DECODER_MAIN)
 	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BIN_DIR)/windows/$(E2E_BIN).exe $(E2E_MAIN)
-	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BIN_DIR)/windows/$(ANALYSIS_BIN).exe $(ANALYSIS_MAIN)   # ДОБАВЛЕНО
+	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BIN_DIR)/windows/$(ANALYSIS_BIN).exe $(ANALYSIS_MAIN)
 
 # ============================================================================
 # E2E test targets (uses Go e2e binary)
@@ -194,10 +194,10 @@ run-e2e: ensure-datasets
 # ============================================================================
 # Analysis targets (compression ratio and total size)
 # ============================================================================
-analysis: ensure-datasets $(BIN_DIR)/$(ANALYSIS_BIN)                     # ДОБАВЛЕНО
+analysis: ensure-datasets $(BIN_DIR)/$(ANALYSIS_BIN)
 	$(BIN_DIR)/$(ANALYSIS_BIN) -dir30=$(TEST30_DIR) -dir80=$(TEST80_DIR)
 
-analysis-save: ensure-datasets $(REPORTS_DIR) $(BIN_DIR)/$(ANALYSIS_BIN)  # ДОБАВЛЕНО
+analysis-save: ensure-datasets $(REPORTS_DIR) $(BIN_DIR)/$(ANALYSIS_BIN)
 	$(BIN_DIR)/$(ANALYSIS_BIN) -dir30=$(TEST30_DIR) -dir80=$(TEST80_DIR) > $(REPORTS_DIR)/analysis_$(shell date +%Y%m%d_%H%M%S).txt
 
 # ============================================================================
